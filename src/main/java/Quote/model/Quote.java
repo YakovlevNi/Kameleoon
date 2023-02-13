@@ -1,25 +1,32 @@
-package main.java.Quote.model;
+package Quote.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     String text;
 
-    String author;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+     User author;
 
-    public Quote(String text, String author) {
+    public Quote(String text, User user) {
         this.text=text;
-        this.author=author;
+        this.author=user;
+    }
+
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
+    }
+
+    public User getAuthor() {
+        return author;
     }
 }

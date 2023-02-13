@@ -1,10 +1,9 @@
-package main.java.Quote.model;
+package Quote.model;
 
-import jakarta.persistence.GeneratedValue;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER, ADMINISTRATOR, BANNED_User;
+    USER, ADMIN;
 
     @Override
     public String getAuthority() {

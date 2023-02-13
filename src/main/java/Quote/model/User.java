@@ -1,9 +1,11 @@
-package main.java.Quote.model;
+package Quote.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,25 +18,30 @@ import static org.springframework.boot.devtools.restart.AgentReloader.isActive;
 @Getter
 @Setter
 @NoArgsConstructor
-
+@EnableJpaRepositories
+@EntityScan
 public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(columnDefinition = "VARCHAR(255)")
-    private String name;
+    private String username;
 
     @Column(nullable = false)
     private String mail;
 
     @Column(nullable = false)
     private String login;
-    @Column
+    @Column(nullable = false)
     private String password;
 
+
+    @Column
+    private String activationCode;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role>roles;
 
